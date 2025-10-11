@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: yugram
+
+app:
+  telegram:
+    client:
+      api-id: ${TG_API_ID:}
+      api-hash: ${TG_API_HASH:}
+      application-version: 1.0
+      database-directory: database
+      device-model: macOS
+      enable-storage-optimizer: true
+      log-file: tdlib.log
+      log-file-max-size: 104857600
+      log-verbosity-level: 0
+      system-language-code: en
+      use-message-database: true
+      use-secret-chats: true
+      phone-number: ${TG_PHONE_NUMBER:}
+      password: ${TG_PASSWORD:}
+
+logging:
+  level:
+    root: INFO
+    live.yurii.yugram: DEBUG

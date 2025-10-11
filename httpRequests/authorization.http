@@ -1,0 +1,14 @@
+### Login to the system
+POST http://localhost:8080/auth/login
+Accept: text/plain
+
+### Verify OTP code
+POST http://localhost:8080/auth/otp
+Content-Type: text/plain
+Accept: text/plain
+
+36000
+
+### Logout from the system
+POST http://localhost:8080/auth/logout
+Accept: text/plain
