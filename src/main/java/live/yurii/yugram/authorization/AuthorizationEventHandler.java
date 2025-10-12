@@ -51,10 +51,8 @@ public class AuthorizationEventHandler {
     request.deviceModel = parameters.getDeviceModel();
     request.applicationVersion = parameters.getApplicationVersion();
 
-    log.info("Sending TDLib parameters: {}", request);
-    client.send(request,
-        new AuthorizationRequestHandler(),
-        e -> log.error("Failed to send TDLib parameters", e));
+    log.info("Sending TDLib parameters");
+    client.send(request, new AuthorizationRequestHandler(), e -> log.error("Failed to send TDLib parameters", e));
   }
 
   private void sendPhoneNumber() {
