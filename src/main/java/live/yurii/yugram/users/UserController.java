@@ -26,9 +26,10 @@ public class UserController {
 
     log.debug("Getting all users with page: {}, size: {}", page, size);
 
-    // Ensure size doesn't exceed default maximum
-    int pageSize = Math.min(size, DEFAULT_PAGE_SIZE);
-    Pageable pageable = PageRequest.of(page, pageSize);
+    // Validate and normalize pagination parameters
+    int normalizedPage = Math.max(0, page);
+    int normalizedSize = Math.max(1, Math.min(size, DEFAULT_PAGE_SIZE));
+    Pageable pageable = PageRequest.of(normalizedPage, normalizedSize);
 
     Page<UserEntity> userPage = userRepository.findAll(pageable);
 

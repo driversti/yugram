@@ -26,9 +26,10 @@ public class MessageController {
 
     log.debug("Getting all messages with page: {}, size: {}", page, size);
 
-    // Ensure size doesn't exceed default maximum
-    int pageSize = Math.min(size, DEFAULT_PAGE_SIZE);
-    Pageable pageable = PageRequest.of(page, pageSize);
+    // Validate and normalize pagination parameters
+    int normalizedPage = Math.max(0, page);
+    int normalizedSize = Math.max(1, Math.min(size, DEFAULT_PAGE_SIZE));
+    Pageable pageable = PageRequest.of(normalizedPage, normalizedSize);
 
     Page<MessageEntity> messagePage = messageRepository.findAll(pageable);
 
@@ -53,9 +54,10 @@ public class MessageController {
 
     log.debug("Getting messages for chatId: {} with page: {}, size: {}", chatId, page, size);
 
-    // Ensure size doesn't exceed default maximum
-    int pageSize = Math.min(size, DEFAULT_PAGE_SIZE);
-    Pageable pageable = PageRequest.of(page, pageSize);
+    // Validate and normalize pagination parameters
+    int normalizedPage = Math.max(0, page);
+    int normalizedSize = Math.max(1, Math.min(size, DEFAULT_PAGE_SIZE));
+    Pageable pageable = PageRequest.of(normalizedPage, normalizedSize);
 
     Page<MessageEntity> messagePage = messageRepository.findByChatId(chatId, pageable);
 
@@ -89,9 +91,10 @@ public class MessageController {
 
     log.debug("Getting messages where chatId and senderId are both: {} with page: {}, size: {}", id, page, size);
 
-    // Ensure size doesn't exceed default maximum
-    int pageSize = Math.min(size, DEFAULT_PAGE_SIZE);
-    Pageable pageable = PageRequest.of(page, pageSize);
+    // Validate and normalize pagination parameters
+    int normalizedPage = Math.max(0, page);
+    int normalizedSize = Math.max(1, Math.min(size, DEFAULT_PAGE_SIZE));
+    Pageable pageable = PageRequest.of(normalizedPage, normalizedSize);
 
     Page<MessageEntity> messagePage = messageRepository.findByChatIdAndSenderId(id, id, pageable);
 
