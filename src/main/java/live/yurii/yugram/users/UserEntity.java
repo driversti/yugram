@@ -1,22 +1,24 @@
-package live.yurii.yugram.user;
+package live.yurii.yugram.users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.drinkless.tdlib.TdApi;
 
 @Entity
 @Table(name = "users")
-@Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
 
@@ -47,29 +49,6 @@ public class UserEntity {
   @Column(name = "type")
   @Enumerated(EnumType.STRING)
   private UserType type;
-
-  @Getter
-  public enum UserType {
-
-    BOT(-1952199642),
-    REGULAR(-598644325),
-    DELETED(-1807729372),
-    UNKNOWN(-724541123);
-    private final int constructor;
-
-    UserType(int constructor) {
-      this.constructor = constructor;
-    }
-
-    public static UserType fromConstructor(int constructor) {
-      return switch (constructor) {
-        case TdApi.UserTypeBot.CONSTRUCTOR -> BOT;
-        case TdApi.UserTypeRegular.CONSTRUCTOR -> REGULAR;
-        case TdApi.UserTypeDeleted.CONSTRUCTOR -> DELETED;
-        default -> UNKNOWN;
-      };
-    }
-  }
 
   public UserEntity(long id) {
     this.id = id;
@@ -129,4 +108,28 @@ public class UserEntity {
     this.type = type;
     return this;
   }
+
+  @Getter
+  public enum UserType {
+
+    BOT(-1952199642),
+    REGULAR(-598644325),
+    DELETED(-1807729372),
+    UNKNOWN(-724541123);
+    private final int constructor;
+
+    UserType(int constructor) {
+      this.constructor = constructor;
+    }
+
+    public static UserType fromConstructor(int constructor) {
+      return switch (constructor) {
+        case TdApi.UserTypeBot.CONSTRUCTOR -> BOT;
+        case TdApi.UserTypeRegular.CONSTRUCTOR -> REGULAR;
+        case TdApi.UserTypeDeleted.CONSTRUCTOR -> DELETED;
+        default -> UNKNOWN;
+      };
+    }
+  }
+
 }

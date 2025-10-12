@@ -1,4 +1,4 @@
-package live.yurii.yugram.user;
+package live.yurii.yugram.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

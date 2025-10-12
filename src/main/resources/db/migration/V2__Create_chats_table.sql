@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS chats
+(
+    id    BIGINT PRIMARY KEY,
+    type  VARCHAR(48) NOT NULL,
+    title VARCHAR(255),
+
+    CONSTRAINT chats_type_check CHECK (type IN ('PRIVATE', 'BASIC_GROUP', 'SUPERGROUP', 'SECRET'))
+);

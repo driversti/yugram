@@ -1,4 +1,4 @@
-package live.yurii.yugram.user;
+package live.yurii.yugram.users;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,14 @@ public class UserHandler {
 
   @Transactional
   @EventListener
-  public void handle(UpdateUserEvent event) {
+  public void handle(UserEvent event) {
     TdApi.User tgUser = event.getUpdateUser().user;
     userRepository.findById(tgUser.id).ifPresentOrElse(
-        entity -> userRepository.save(updateUser(entity, tgUser)),
-        () -> userRepository.save(createUser(tgUser)));
+        entity -> userRepository.save(updateEntity(entity, tgUser)),
+        () -> userRepository.save(createEntity(tgUser)));
   }
 
-  private UserEntity updateUser(UserEntity userEntity, TdApi.User tgUser) {
+  private UserEntity updateEntity(UserEntity userEntity, TdApi.User tgUser) {
     String userName = getUserName(tgUser.usernames);
     if (userName != null && !userName.equals(userEntity.getUsername())) {
       userEntity.setUsername(userName);
@@ -57,8 +57,9 @@ public class UserHandler {
     return userEntity;
   }
 
-  private UserEntity createUser(TdApi.User user) {
-    return new UserEntity(user.id)
+  private UserEntity createEntity(TdApi.User user) {
+    UserEntity userEntity = new UserEntity(user.id);
+    return userEntity
         .withUsername(getUserName(user.usernames))
         .withFirstName(user.firstName)
         .withLastName(user.lastName)
