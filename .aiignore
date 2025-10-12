@@ -10,3 +10,4 @@ database
 files
 libs
 tdlib.log
+postgres-data

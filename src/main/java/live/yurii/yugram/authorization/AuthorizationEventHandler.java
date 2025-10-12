@@ -30,7 +30,7 @@ public class AuthorizationEventHandler {
       case TdApi.AuthorizationStateWaitCode.CONSTRUCTOR -> sendCode();
       case TdApi.AuthorizationStateWaitPassword.CONSTRUCTOR -> sendPassword();
       case TdApi.AuthorizationStateReady.CONSTRUCTOR -> log.info("Authorization state is ready");
-      case TdApi.AuthorizationStateLoggingOut.CONSTRUCTOR -> log.info("Logging out...");
+      case TdApi.AuthorizationStateLoggingOut.CONSTRUCTOR -> log.info("Not implemented yet: Logging out :(");
       case TdApi.AuthorizationStateClosing.CONSTRUCTOR -> log.info("Closing state...");
       case TdApi.AuthorizationStateClosed.CONSTRUCTOR -> log.info("Closed");
       default -> log.warn("Unsupported authorization state: {}", newState);
@@ -51,10 +51,8 @@ public class AuthorizationEventHandler {
     request.deviceModel = parameters.getDeviceModel();
     request.applicationVersion = parameters.getApplicationVersion();
 
-    log.info("Sending TDLib parameters: {}", request);
-    client.send(request,
-        new AuthorizationRequestHandler(),
-        e -> log.error("Failed to send TDLib parameters", e));
+    log.info("Sending TDLib parameters");
+    client.send(request, new AuthorizationRequestHandler(), e -> log.error("Failed to send TDLib parameters", e));
   }
 
   private void sendPhoneNumber() {
