@@ -1,0 +1,23 @@
+### Get all chats with default pagination
+GET http://localhost:8080/chats/all
+Accept: application/json
+
+### Get all chats with custom pagination (first page, 5 items)
+GET http://localhost:8080/chats/all?page=0&size=5
+Accept: application/json
+
+### Get all chats with custom pagination (second page, 10 items)
+GET http://localhost:8080/chats/all?page=1&size=10
+Accept: application/json
+
+### Get chat by ID
+GET http://localhost:8080/chats/byId/123456789
+Accept: application/json
+
+### Get chat by ID (example 2)
+GET http://localhost:8080/chats/byId/987654321
+Accept: application/json
+
+### Get chat by ID (not found case)
+GET http://localhost:8080/chats/byId/999999999
+Accept: application/json

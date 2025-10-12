@@ -1,0 +1,59 @@
+### Get all messages with default pagination
+GET http://localhost:8080/messages/all
+Accept: application/json
+
+### Get all messages with custom pagination (first page, 5 items)
+GET http://localhost:8080/messages/all?page=0&size=5
+Accept: application/json
+
+### Get all messages with custom pagination (second page, 10 items)
+GET http://localhost:8080/messages/all?page=1&size=10
+Accept: application/json
+
+### Get messages by chat ID with default pagination
+GET http://localhost:8080/messages/byChatId/-1001125352795
+Accept: application/json
+
+### Get messages by chat ID with custom pagination (first page, 5 items)
+GET http://localhost:8080/messages/byChatId/123456789?page=0&size=5
+Accept: application/json
+
+### Get messages by chat ID with custom pagination (second page, 10 items)
+GET http://localhost:8080/messages/byChatId/123456789?page=1&size=10
+Accept: application/json
+
+### Get messages by another chat ID
+GET http://localhost:8080/messages/byChatId/987654321?page=0&size=10
+Accept: application/json
+
+### Get message by ID
+GET http://localhost:8080/messages/byId/555555555
+Accept: application/json
+
+### Get message by ID (example 2)
+GET http://localhost:8080/messages/byId/777777777
+Accept: application/json
+
+### Get message by ID (not found case)
+GET http://localhost:8080/messages/byId/999999999
+Accept: application/json
+
+### Get messages where chatId and senderId are the same (default pagination)
+GET http://localhost:8080/messages/byChatIdAndSenderId/-1001281542836
+Accept: application/json
+
+### Get messages where chatId and senderId are the same (custom pagination, first page)
+GET http://localhost:8080/messages/byChatIdAndSenderId/123456789?page=0&size=5
+Accept: application/json
+
+### Get messages where chatId and senderId are the same (custom pagination, second page)
+GET http://localhost:8080/messages/byChatIdAndSenderId/123456789?page=1&size=10
+Accept: application/json
+
+### Get messages where chatId and senderId are the same (example with channel ID)
+GET http://localhost:8080/messages/byChatIdAndSenderId/-1001125352795?page=0&size=10
+Accept: application/json
+
+### Get messages where chatId and senderId are the same (not found case)
+GET http://localhost:8080/messages/byChatIdAndSenderId/999999999
+Accept: application/json

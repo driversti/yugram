@@ -42,3 +42,4 @@ tdlib.log
 src/main/java/org
 libs/libtdjni.dylib
 postgres-data
+CLAUDE.md

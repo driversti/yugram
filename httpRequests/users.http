@@ -1,0 +1,31 @@
+### Get all users with default pagination
+GET http://localhost:8080/users/all
+Accept: application/json
+
+### Get all users with custom pagination (first page, 5 items)
+GET http://localhost:8080/users/all?page=0&size=5
+Accept: application/json
+
+### Get all users with custom pagination (second page, 10 items)
+GET http://localhost:8080/users/all?page=1&size=10
+Accept: application/json
+
+### Get user by ID
+GET http://localhost:8080/users/byId/123456789
+Accept: application/json
+
+### Get user by ID (example 2)
+GET http://localhost:8080/users/byId/987654321
+Accept: application/json
+
+### Get user by ID (not found case)
+GET http://localhost:8080/users/byId/999999999
+Accept: application/json
+
+### Get user by username (if implemented)
+GET http://localhost:8080/users/byUsername/john_doe
+Accept: application/json
+
+### Get user by phone number (if implemented)
+GET http://localhost:8080/users/byPhoneNumber/+1234567890
+Accept: application/json
