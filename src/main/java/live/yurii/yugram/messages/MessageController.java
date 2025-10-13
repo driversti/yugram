@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/messages")
+@CrossOrigin(origins = "*")
 public class MessageController {
 
   private final MessageRepository messageRepository;

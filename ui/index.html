@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YuGram - Chat Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>YuGram Chat Viewer</h1>
+        </header>
+
+        <div class="main-content">
+            <div class="chats-panel">
+                <div class="panel-header">
+                    <h2>Chats</h2>
+                    <button id="refresh-chats" class="refresh-btn">↻</button>
+                </div>
+                <div id="chats-list" class="chats-list">
+                    <!-- Chats will be loaded here -->
+                </div>
+                <div class="pagination-container">
+                    <div id="pagination-info" class="pagination-info"></div>
+                    <div id="pagination-controls" class="pagination-controls">
+                        <!-- Pagination controls will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="messages-panel">
+                <div class="panel-header">
+                    <h2 id="chat-title">Select a chat</h2>
+                    <button id="load-more" class="load-more-btn" style="display: none;">Load More</button>
+                </div>
+                <div id="messages-container" class="messages-container">
+                    <div class="empty-state">
+                        <p>Select a chat to view messages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
