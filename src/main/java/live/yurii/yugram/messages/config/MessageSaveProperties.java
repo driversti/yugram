@@ -11,19 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Configuration properties for message skipping behavior.
- * Allows configuration of specific chat IDs for which messages should not be saved.
+ * Configuration properties for message saving behavior.
+ * Allows configuration of specific chat IDs for which messages should be saved.
  * Supports both YAML list format and comma-separated environment variables.
  */
 @Slf4j
 @Data
 @Component
-@ConfigurationProperties(prefix = "app.messages.skip")
-public class MessageSkipProperties {
+@ConfigurationProperties(prefix = "app.messages.save")
+public class MessageSaveProperties {
 
   /**
-   * List of chat IDs for which messages should be skipped when saving.
-   * Can be configured as a YAML list directly or via SKIP_CHAT_IDS environment variable
+   * List of chat IDs for which messages should be saved.
+   * Can be configured as a YAML list directly or via SAVE_CHAT_IDS environment variable
    * as a comma-separated string.
    * <p>
    * YAML example:
@@ -33,22 +33,22 @@ public class MessageSkipProperties {
    * - -1001125352796
    * <p>
    * Environment variable example:
-   * SKIP_CHAT_IDS=123456789,987654321,-1001125352796
+   * SAVE_CHAT_IDS=123456789,987654321,-1001125352796
    */
   private List<Long> chatIds = new ArrayList<>();
 
   /**
    * Additional field to handle environment variable override
-   * This will be populated from SKIP_CHAT_IDS environment variable
+   * This will be populated from SAVE_CHAT_IDS environment variable
    */
   private String chatIdsEnv = "";
 
   /**
-   * Get the effective list of chat IDs to skip.
+   * Get the effective list of chat IDs to save.
    * Combines YAML list and environment variable values.
    * Environment variable takes precedence if set.
    *
-   * @return List of chat IDs to skip
+   * @return List of chat IDs to save
    */
   public List<Long> getEffectiveChatIds() {
     // If environment variable is set, use it
@@ -85,49 +85,49 @@ public class MessageSkipProperties {
   }
 
   /**
-   * Check if a message from a specific chat ID should be skipped based on the configuration.
+   * Check if a message from a specific chat ID should be saved based on the configuration.
    *
    * @param chatId The chat ID to check
-   * @return true if messages from this chat ID should be skipped
+   * @return true if messages from this chat ID should be saved
    */
-  public boolean shouldSkipChatId(Long chatId) {
+  public boolean shouldSaveChatId(Long chatId) {
     return getEffectiveChatIds().contains(chatId);
   }
 
   /**
-   * Get the count of chat IDs in the skip list.
+   * Get the count of chat IDs in the save list.
    *
-   * @return the number of chat IDs to skip
+   * @return the number of chat IDs to save
    */
-  public int getSkipChatIdsCount() {
+  public int getSaveChatIdsCount() {
     return getEffectiveChatIds().size();
   }
 
   /**
-   * Check if any chat IDs are configured to be skipped.
+   * Check if any chat IDs are configured to be saved.
    *
-   * @return true if any chat IDs are configured to be skipped
+   * @return true if any chat IDs are configured to be saved
    */
-  public boolean hasSkipChatIds() {
+  public boolean hasSaveChatIds() {
     return !getEffectiveChatIds().isEmpty();
   }
 
   /**
-   * Get a summary of current skip configuration for logging.
+   * Get a summary of current save configuration for logging.
    *
    * @return Configuration summary string
    */
   public String getConfigurationSummary() {
     return String.format(
-        "MessageSkipConfig{skipChatIdsCount=%d, specificChatIds=%s}",
-        getSkipChatIdsCount(), getEffectiveChatIds()
+        "MessageSaveConfig{saveChatIdsCount=%d, specificChatIds=%s}",
+        getSaveChatIdsCount(), getEffectiveChatIds()
     );
   }
 
   /**
    * Check if environment variable override is being used.
    *
-   * @return true if SKIP_CHAT_IDS environment variable is set
+   * @return true if SAVE_CHAT_IDS environment variable is set
    */
   public boolean isUsingEnvironmentVariable() {
     return StringUtils.hasText(chatIdsEnv);
@@ -140,7 +140,7 @@ public class MessageSkipProperties {
    */
   public String getConfigurationSource() {
     if (isUsingEnvironmentVariable()) {
-      return "Environment variable SKIP_CHAT_IDS";
+      return "Environment variable SAVE_CHAT_IDS";
     } else {
       return "YAML configuration";
     }

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -109,5 +111,13 @@ public class MessageController {
         .build();
 
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/chat-ids")
+  public ResponseEntity<List<Long>> getDistinctChatIds() {
+    log.debug("Getting distinct chat IDs");
+
+    List<Long> chatIds = messageRepository.findDistinctChatIds();
+    return ResponseEntity.ok(chatIds);
   }
 }

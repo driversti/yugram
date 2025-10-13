@@ -1,12 +1,15 @@
 package live.yurii.yugram.messages;
 
-import live.yurii.yugram.messages.config.MessageSkipProperties;
+import jakarta.transaction.Transactional;
+import live.yurii.yugram.messages.config.MessageSaveProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.drinkless.tdlib.*;
+import org.drinkless.tdlib.TdApi;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.event.*;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -14,40 +17,54 @@ import org.springframework.stereotype.Component;
 public class MessageHandler implements InitializingBean {
 
   private final MessageRepository messageRepository;
-  private final MessageSkipProperties skipProperties;
+  private final MessageSaveProperties saveProperties;
 
+  private static String getText(TdApi.MessageContent content) {
+    return switch (content.getConstructor()) {
+      case TdApi.MessageText.CONSTRUCTOR -> ((TdApi.MessageText) content).text.text;
+      case TdApi.MessagePhoto.CONSTRUCTOR -> ((TdApi.MessagePhoto) content).caption.text;
+      case TdApi.MessageVideo.CONSTRUCTOR -> ((TdApi.MessageVideo) content).caption.text;
+      default -> "";
+    };
+  }
+
+  @Transactional
   @EventListener
   public void handle(NewMessageEvent event) {
     TdApi.Message tgMessage = event.getUpdateNewMessage().message;
 
-    // Skip saving messages from specific chat IDs
-    if (skipProperties.shouldSkipChatId(tgMessage.chatId)) {
-      log.trace("Skipping message ID {} from chat ID {}", tgMessage.id, tgMessage.chatId);
+    // Only save messages from specific chat IDs
+    if (!saveProperties.shouldSaveChatId(tgMessage.chatId)) {
+      log.trace("Not saving message ID {} from chat ID {} (not in save list)", tgMessage.id, tgMessage.chatId);
       return;
     }
 
     messageRepository.findById(tgMessage.id).ifPresentOrElse(
         entity -> messageRepository.save(updateEntity(entity, tgMessage)),
-        () -> messageRepository.save(createEntity(tgMessage)));
+        () -> createEntity(tgMessage).ifPresent(messageRepository::save));
   }
 
   @Override
   public void afterPropertiesSet() {
-    log.info("MessageHandler initialized with configuration: {}", skipProperties.getConfigurationSummary());
-    log.info("Configuration source: {}", skipProperties.getConfigurationSource());
-    if (skipProperties.hasSkipChatIds()) {
-      log.info("Message skipping is enabled. Messages from {} chat IDs will be skipped.", skipProperties.getSkipChatIdsCount());
+    log.info("MessageHandler initialized with configuration: {}", saveProperties.getConfigurationSummary());
+    log.info("Configuration source: {}", saveProperties.getConfigurationSource());
+    if (saveProperties.hasSaveChatIds()) {
+      log.info("Selective message saving is enabled. Messages from {} chat IDs will be saved.", saveProperties.getSaveChatIdsCount());
     } else {
-      log.info("Message skipping is disabled. All messages will be saved.");
+      log.info("Selective message saving is disabled. No messages will be saved.");
     }
   }
 
-  private MessageEntity createEntity(TdApi.Message tgMessage) {
-    return new MessageEntity(tgMessage.id)
+  private Optional<MessageEntity> createEntity(TdApi.Message tgMessage) {
+    String text = getText(tgMessage.content);
+    if (text == null || text.isBlank()) {
+      return Optional.empty();
+    }
+    return Optional.of(new MessageEntity(tgMessage.id)
         .withSenderId(getSenderId(tgMessage.senderId))
         .withChatId(tgMessage.chatId)
         .withDate(tgMessage.date)
-        .withContent(getText(tgMessage.content));
+        .withContent(getText(tgMessage.content)));
   }
 
   private long getSenderId(TdApi.MessageSender sender) {
@@ -67,14 +84,5 @@ public class MessageHandler implements InitializingBean {
       return entity;
     }
     return entity.withContent(text);
-  }
-
-  private static String getText(TdApi.MessageContent content) {
-    return switch (content.getConstructor()) {
-      case TdApi.MessageText.CONSTRUCTOR -> ((TdApi.MessageText) content).text.text;
-      case TdApi.MessagePhoto.CONSTRUCTOR -> ((TdApi.MessagePhoto) content).caption.text;
-      case TdApi.MessageVideo.CONSTRUCTOR -> ((TdApi.MessageVideo) content).caption.text;
-      default -> "";
-    };
   }
 }
