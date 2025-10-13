@@ -67,6 +67,9 @@ public class MainUpdateHandler implements Client.ResultHandler {
       case TdApi.UpdateSupergroup.CONSTRUCTOR -> skip("UpdateSupergroup");
       case TdApi.UpdateChatPosition.CONSTRUCTOR -> skip("UpdateChatPosition");
       case TdApi.UpdateChatActiveStories.CONSTRUCTOR -> skip("UpdateChatActiveStories");
+      case TdApi.UpdateChatRemovedFromList.CONSTRUCTOR -> skip("UpdateChatRemovedFromList");
+      case TdApi.UpdateChatPhoto.CONSTRUCTOR -> skip("UpdateChatPhoto");
+      case TdApi.UpdateBasicGroup.CONSTRUCTOR -> skip("UpdateBasicGroup");
 
       case TdApi.UpdateSupergroupFullInfo.CONSTRUCTOR -> skip("UpdateSupergroupFullInfo");
       case TdApi.UpdateOption.CONSTRUCTOR -> skip("UpdateOption");

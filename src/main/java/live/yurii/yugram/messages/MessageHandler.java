@@ -62,14 +62,19 @@ public class MessageHandler implements InitializingBean {
   }
 
   private MessageEntity updateEntity(MessageEntity entity, TdApi.Message tgMessage) {
-    return entity.withContent(getText(tgMessage.content));
+    String text = getText(tgMessage.content);
+    if (text == null || text.isBlank()) {
+      return entity;
+    }
+    return entity.withContent(text);
   }
 
   private static String getText(TdApi.MessageContent content) {
     return switch (content.getConstructor()) {
       case TdApi.MessageText.CONSTRUCTOR -> ((TdApi.MessageText) content).text.text;
       case TdApi.MessagePhoto.CONSTRUCTOR -> ((TdApi.MessagePhoto) content).caption.text;
-      default -> "No content";
+      case TdApi.MessageVideo.CONSTRUCTOR -> ((TdApi.MessageVideo) content).caption.text;
+      default -> "";
     };
   }
 }
