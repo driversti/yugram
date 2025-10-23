@@ -41,5 +41,6 @@ files
 tdlib.log
 src/main/java/org
 libs/libtdjni.dylib
+libs/libtdjni.so
 postgres-data
 CLAUDE.md

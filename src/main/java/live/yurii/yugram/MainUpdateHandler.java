@@ -86,7 +86,7 @@ public class MainUpdateHandler implements Client.ResultHandler {
       case TdApi.UpdateActiveEmojiReactions.CONSTRUCTOR -> skip("UpdateActiveEmojiReactions");
       case TdApi.UpdateAvailableMessageEffects.CONSTRUCTOR -> skip("UpdateAvailableMessageEffects");
       case TdApi.UpdateDefaultPaidReactionType.CONSTRUCTOR -> skip("UpdateDefaultPaidReactionType");
-      case TdApi.UpdateChatThemes.CONSTRUCTOR -> skip("UpdateChatThemes");
+      case TdApi.UpdateChatTheme.CONSTRUCTOR -> skip("UpdateChatTheme");
       case TdApi.UpdateReactionNotificationSettings.CONSTRUCTOR -> skip("UpdateReactionNotificationSettings");
       case TdApi.UpdateChatFolders.CONSTRUCTOR -> skip("UpdateChatFolders");
       case TdApi.UpdateUnreadChatCount.CONSTRUCTOR -> skip("UpdateUnreadChatCount");
