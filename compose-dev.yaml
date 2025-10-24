@@ -3,7 +3,7 @@ services:
     image: 'postgres:16'
     environment:
       POSTGRES_DB: yugram
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: yugram # change me
       POSTGRES_USER: yugram
     ports:
       - '5432:5432'
