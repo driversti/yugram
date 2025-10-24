@@ -1,0 +1,70 @@
+# Include only essential files for Docker build
+# Exclude everything else
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+pom.xml
+target/
+
+# Source code
+src/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.*
+
+# Database
+postgres-data/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yaml
+.dockerignore
+
+# Documentation
+README*.md
+CLAUDE.md
+*.md
+
+# Scripts
+scripts/
+build.sh
+
+# HTTP requests
+httpRequests/
+
+# Project guidelines
+.junie/
+
+# Nginx
+nginx/
+
+# Monitoring
+monitoring/
+
+# Backups
+backups/
+
+# Include
+!target/yugram-0.0.1-SNAPSHOT.jar
+!libs/libtdjni.so
