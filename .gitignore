@@ -44,3 +44,4 @@ libs/libtdjni.dylib
 libs/libtdjni.so
 postgres-data
 CLAUDE.md
+.env
